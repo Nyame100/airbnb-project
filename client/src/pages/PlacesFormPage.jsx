@@ -6,6 +6,7 @@ import AccountNav from "../AccountNav";
 import { Navigate, useParams } from "react-router-dom";
 
 const PlacesFormPage = () => {
+  const { id } = useParams();
   const [state, setState] = useState({
     title: "",
     address: "",
@@ -16,18 +17,10 @@ const PlacesFormPage = () => {
     checkIn: "",
     checkOut: "",
     maxGuests: 1,
+    price: 100,
   });
+  const [redirect, setRedirect] = useState("");
   // const [addedPhotos, setAddedPhotos] = useState([]);
-  const [redirect, setRedirect] = useState(false);
-
-  function preInput(header, description) {
-    return (
-      <>
-        <h2 className="text-2xl mt-4">{header}</h2>
-        <p className="text-gray-500 text-sm">{description}</p>
-      </>
-    );
-  }
 
   function handleChange(e) {
     const { checked, name } = e.target;
@@ -41,26 +34,6 @@ const PlacesFormPage = () => {
     }
   }
 
-  const savePlace = async (e) => {
-    e.preventDefault();
-    const placeData = state;
-
-    if (id) {
-      //UPDATE
-      await axios.put("/places", { id, ...placeData });
-      setRedirect(true);
-    } else {
-      await axios.post("/places", placeData);
-      setRedirect(true);
-      // NEW PLACE
-    }
-  };
-
-  if (redirect) {
-    return <Navigate to={"/account/places"} />;
-  }
-
-  const { id } = useParams();
   useEffect(() => {
     if (!id) {
       return;
@@ -78,10 +51,37 @@ const PlacesFormPage = () => {
         checkIn: data.checkIn,
         checkOut: data.checkOut,
         maxGuests: data.maxGuests,
+        price: data.price,
       });
     });
   }, [id]);
 
+  function preInput(header, description) {
+    return (
+      <>
+        <h2 className="text-2xl mt-4">{header}</h2>
+        <p className="text-gray-500 text-sm">{description}</p>
+      </>
+    );
+  }
+  const savePlace = async (e) => {
+    e.preventDefault();
+    const placeData = state;
+
+    if (id) {
+      //UPDATE
+      await axios.put("/places", { id, ...placeData });
+      setRedirect("/account/places");
+    } else {
+      // NEW PLACE
+      await axios.post("/places", placeData);
+      setRedirect("/account/places");
+    }
+  };
+
+  if (redirect) {
+    return <Navigate to="/account/places" />;
+  }
   return (
     <div>
       <AccountNav />
@@ -139,7 +139,7 @@ const PlacesFormPage = () => {
           "Check in & out times",
           "Add check in and out times, remember to have some time window for cleaning the place between guests"
         )}
-        <div className="grid gap-2 sm:grid-cols-3">
+        <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
           <div>
             <h3 className="mt-2 -mb-1">Check in time</h3>
             <input
@@ -167,6 +167,15 @@ const PlacesFormPage = () => {
               onChange={(e) =>
                 setState({ ...state, maxGuests: e.target.value })
               }
+            />
+          </div>
+          <div>
+            <h3 className="mt-2 -mb-1">Price per night</h3>
+            <input
+              type="number"
+              placeholder="5"
+              value={state.price}
+              onChange={(e) => setState({ ...state, price: e.target.value })}
             />
           </div>
         </div>
