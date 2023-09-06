@@ -19,7 +19,7 @@ const fs = require("fs");
 
 //
 
-const imgDownloader = require("image-downloader");
+// const imgDownloader = require("image-downloader");
 const multer = require("multer");
 const Booking = require("./models/Booking");
 
@@ -33,14 +33,18 @@ cloudinary.config({
 app.use(express.json());
 // app.use(fileUpload({ useTempFiles: true }));
 app.use(cookieParser());
-app.use("/uploads", express.static(__dirname + "/uploads"));
+// app.use(express.static(path.resolve(__dirname, "./client/build")));
+app.use(express.static(path.resolve(__dirname, "./client/dist")));
+// app.use("/uploads", express.static(path.resolve(__dirname + "/uploads")));
 app.use(
   cors({
     credentials: true,
     origin: ["http://localhost:5173", "https://mern-booking-app.onrender.com"],
   })
 );
-
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
+// });
 mongoose.connect(process.env.MONGO_URL);
 
 function getUserDataFromReq(req) {
@@ -270,6 +274,11 @@ app.post("/bookings", async (req, res) => {
 app.get("/bookings", async (req, res) => {
   const userData = await getUserDataFromReq(req);
   res.json(await Booking.find({ user: userData.id }).populate("place"));
+});
+
+// AFTER ALL ROUTES //
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
 });
 
 app.listen(4000);

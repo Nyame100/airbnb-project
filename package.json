@@ -1,0 +1,26 @@
+{
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "setup-production": "yarn run install-client && yarn run build-client && yarn install",
+    "install-client": "cd client && yarn install",
+    "build-client": "cd client && ./node_modules/vite/bin/vite.js build",
+    "server": "nodemon server --ignore client",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.279.0",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.40.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "image-downloader": "^4.3.0",
+    "jsonwebtoken": "^9.0.0",
+    "mime-types": "^2.1.35",
+    "mongoose": "^6.8.3",
+    "multer": "^1.4.5-lts.1"
+  }
+}

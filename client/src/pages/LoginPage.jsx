@@ -13,7 +13,6 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post("/login", { email, password });
-      alert("Login successful");
       setUser(data);
       setRedirect(true);
     } catch (error) {
