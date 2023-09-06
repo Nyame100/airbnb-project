@@ -9,6 +9,9 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
+  "optionalDependencies": {
+    "fsevents": "*"
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.279.0",
     "bcryptjs": "^2.4.3",
@@ -17,7 +20,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "fsevents": "^2.3.3",
     "image-downloader": "^4.3.0",
     "jsonwebtoken": "^9.0.0",
     "mime-types": "^2.1.35",
