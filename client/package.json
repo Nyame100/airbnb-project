@@ -9,10 +9,8 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "optionalDependencies": {
-    "fsevents": "*"
-  },
   "dependencies": {
+    "fsevents": "*",
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
